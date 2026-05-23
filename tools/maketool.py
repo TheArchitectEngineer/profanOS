@@ -657,9 +657,11 @@ def gen_disk(force=True, with_src=False):
 
         if isinstance(HDD_MAP[dir_name], str):
             if dir_name == "lib":
-                os.makedirs(f"{OUT_DIR}/disk/{dir_name}/{ZLIBS_MOD}")
-                print_and_exec(f"cp -r {HDD_MAP[dir_name]}/*.* {OUT_DIR}/disk/{dir_name}")
-                print_and_exec(f"cp -r {HDD_MAP[dir_name]}/{ZLIBS_MOD}/*.* {OUT_DIR}/disk/{dir_name}/modules")
+                for elm in os.listdir(HDD_MAP[dir_name]):
+                    if not os.path.isdir(f"{HDD_MAP[dir_name]}/{elm}"):
+                        print_and_exec(f"cp {HDD_MAP[dir_name]}/{elm} {OUT_DIR}/disk/{dir_name}")
+                    elif not elm.startswith("lib"):
+                        print_and_exec(f"cp -r {HDD_MAP[dir_name]}/{elm} {OUT_DIR}/disk/{dir_name}")
 
             elif dir_name == "bin":
                 for elm in os.listdir(HDD_MAP[dir_name]):
