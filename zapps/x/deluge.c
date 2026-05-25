@@ -18,7 +18,7 @@
 #include <dlfcn.h>
 #include <elf.h>
 
-#define DELUGE_VERSION  "5.6"
+#define DELUGE_VERSION  "5.7"
 #define ALWAYS_DEBUG    0
 
 #define VISIBILITY_LOCAL  0
@@ -566,7 +566,7 @@ int dynamic_linker(elfobj_t *obj) {
 
             if (does_type_required_sym(type)) {
                 // check if the symbol is defined in the object
-                if (val && sym->st_shndx != SHN_UNDEF) {
+                if (val && type != R_386_COPY && sym->st_shndx != SHN_UNDEF) {
                     if (obj->type == ET_DYN)
                         val += (uint32_t) obj->mem;
                 } else {
